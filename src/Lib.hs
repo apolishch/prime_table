@@ -1,13 +1,13 @@
 module Lib
-    ( someFunc
+    ( getInputAndGenerate
     ) where
 
 generateMultiplyAndPrint :: Int -> IO ()
-generateMultiplyAndPrint 0 = putStrLn "foo"
+generateMultiplyAndPrint numPrimes | numPrimes <= 0 = putStrLn "Please enter a valid integer number of primes greater than 0" >> getInputAndGenerate
 generateMultiplyAndPrint _ = putStrLn "bar"
 
 getInput :: IO String
-getInput = putStrLn "Please enter the number of primes you with to generate and multiply" >> getLine
+getInput = putStrLn "Please enter the number of primes you wish to generate and multiply" >> getLine
 
-someFunc :: IO ()
-someFunc = getInput >>= \number -> generateMultiplyAndPrint (read number :: Int)
+getInputAndGenerate :: IO ()
+getInputAndGenerate = getInput >>= \number -> generateMultiplyAndPrint (read number :: Int)
