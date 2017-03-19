@@ -10,7 +10,7 @@ module PrimeSieve (
   ) where
 
   sieve :: [Integer]
-  sieve = sieveOfErastothenes [2..]
+  sieve = sieveOfErastothenes (2:[3,5..])
     where
       sieveOfErastothenes (p:xs) = p : sieveOfErastothenes [x | x <- xs, x `mod` p /= 0]
 
