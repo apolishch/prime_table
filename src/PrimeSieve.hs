@@ -3,6 +3,10 @@ module PrimeSieve (
   getInputAndGenerate
     ,sieve
     ,generatePrimes
+    ,generateTable
+    ,displayTable
+    ,generateMultiplyAndPrint
+    ,getInput
   ) where
 
   sieve :: [Integer]
