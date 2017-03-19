@@ -24,3 +24,11 @@ module PrimeSieveSpec (spec) where
 
       prop "always returns a list where every element is prime" $
         forAll genSafeInteger $ \i -> foldl (\memo prime -> (isCertifiedPrime prime) && memo) True (generatePrimes i)
+
+
+    describe "PrimeSieve.generateTable" $ do
+      it "generates the right table" $ do
+        generateTable (take 3 first25) `shouldBe` [[2,3,5],[4,6,10],[6,9,15]]
+
+      prop "always returns a list of the correct length" $
+        forAll genSafeInteger $ \i -> length (generateTable $ generatePrimes i) == i
