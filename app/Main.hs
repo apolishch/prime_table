@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import PrimeSieve
 
 main :: IO ()
 main = getInputAndGenerate
