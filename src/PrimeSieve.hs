@@ -1,18 +1,18 @@
-{-# LANGUAGE CPP #-}
 module PrimeSieve (
   getInputAndGenerate
-    ,sieve
-    ,generatePrimes
-    ,generateTable
-    ,displayTable
-    ,generateMultiplyAndPrint
-    ,getInput
+  ,sieve
+  ,generatePrimes
+  ,generateTable
+  ,displayTable
+  ,generateMultiplyAndPrint
+  ,getInput
   ) where
 
   sieve :: [Integer]
-  sieve = sieveOfErastothenes (2:[3,5..])
+  sieve = 2:3:sieveOfErastothenes (tail sieve) [5,7..]
     where
-      sieveOfErastothenes (p:xs) = p : sieveOfErastothenes [x | x <- xs, x `mod` p /= 0]
+      sieveOfErastothenes (p:ps) ds = lesser ++ sieveOfErastothenes ps [x | x <- ps1, x `mod` p /= 0]
+        where (lesser, (_:ps1)) = span (< p^2) ds
 
   generatePrimes :: Int -> [Integer]
   generatePrimes count = take count sieve
