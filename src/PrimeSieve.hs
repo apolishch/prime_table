@@ -3,10 +3,12 @@ module PrimeSieve (
   ,sieve
   ,generatePrimes
   ,generateTable
-  ,displayTable
-  ,generateMultiplyAndPrint
-  ,getInput
+  ,generateField
+  ,generateFields
+  ,constructLine
   ) where
+
+  import Data.List
 
   sieve :: [Integer]
   sieve = 2:3:sieveOfErastothenes (tail sieve) [5,7..]
@@ -18,11 +20,28 @@ module PrimeSieve (
   generatePrimes count = take count sieve
 
   generateTable :: [Integer] -> [[Integer]]
-  generateTable [] = []
-  generateTable as = [as]
+  generateTable as = map (\int -> map (int*) as) as
+
+  generateField :: Integer -> String
+  generateField a = show a ++ (replicate (7 - (length $ show a)) ' ')
+
+  generateFields :: [Integer] -> String
+  generateFields as = "|" ++ intercalate " | " (map generateField as) ++ " |"
+
+  constructLine :: Maybe Integer -> [Integer] -> String
+  constructLine Nothing as = "|       " ++ generateFields as
+  constructLine (Just a) as = "|" ++ generateField a ++ generateFields as
+
+  displayRows :: [Integer] -> [[Integer]] -> IO ()
+  displayRows (b:bs) (a:as) = putStrLn (constructLine (Just b) a) >> displayRows bs as
+
+  displayTableWithBorders :: [Integer] -> [[Integer]] -> IO ()
+  displayTableWithBorders bs as = do
+    putStrLn $ constructLine Nothing bs
+    displayRows bs as   
 
   displayTable :: [[Integer]] -> IO ()
-  displayTable as = putStrLn "foo"
+  displayTable as = displayTableWithBorders (generatePrimes (length $ head as)) as
 
   generateMultiplyAndPrint :: Int -> IO ()
   generateMultiplyAndPrint numPrimes | numPrimes <= 0 = putStrLn "Please enter a valid integer number of primes greater than 0" >> getInputAndGenerate
